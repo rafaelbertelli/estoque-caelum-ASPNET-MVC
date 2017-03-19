@@ -1,0 +1,35 @@
+﻿
+    <form method="post" action="/Produto/Adiciona"> 
+        <div class="form-group">
+            @Html.AntiForgeryToken()
+            @Html.ValidationMessage("produto.Invalido")
+    
+            <label for="nome">Nome</label>
+            <label>@Html.ValidationMessage("produto.Nome")</label>
+            <input id="nome" name="produto.Nome" value="@ViewBag.Produto.Nome" class="form-control" />
+    
+            <label for="preco">Preço</label>
+            <label>@Html.ValidationMessage("produto.Preco")</label>
+            <input id="preco" name="produto.Preco" value="@ViewBag.Produto.Preco" class="form-control" />
+    
+            <label for="quantidade">Quantidade</label>
+            <label>@Html.ValidationMessage("produto.Quantidade")</label>
+            <input id="quantidade" name="produto.Quantidade" value="@ViewBag.Produto.Quantidade" class="form-control" />
+    
+            <label for="descricao">Descrição</label>
+            <label>@Html.ValidationMessage("produto.Descricao")</label>
+            <input id="descricao" name="produto.Descricao" value="@ViewBag.Produto.Descricao" class="form-control" />
+    
+            <label for="categoria">Categoria</label>
+            <select id="categoria" name="produto.categoriaId" class="form-control">
+                @foreach(var c in ViewBag.Categorias)
+                {   
+                    <option value="@c.Id" selected="@c.Id.Equals(ViewBag.Produto.CategoriaId)">@c.Nome</option>
+                }
+            </select>
+        </div>
+
+        <a class="btn btn-danger" href='@Url.Action("Index")'>Cancelar</a>
+        <input type="submit" value="Cadastrar" class="btn btn-success" />
+    </form>
+

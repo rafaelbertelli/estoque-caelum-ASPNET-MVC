@@ -1,0 +1,62 @@
+﻿@model IList<CaelumEstoque.Models.Produto>
+
+<section id="produtoIndex">
+    <div class="form-group pull-right">
+        <a class="btn btn-default" href="@Url.Action("Form","Produto")" role="button">Adicionar</a>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Quantidade</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var produto in Model)
+            {
+                <tr>
+                    <td>@produto.Id</td>
+                    <td>@Html.RouteLink(produto.Nome, "visualizaProduto", new { id = produto.Id })</td>
+                    <td id="qtd@(produto.Id)">@produto.Quantidade</td>
+                    <td><a href="#" onclick="produtoDecrementa(@produto.Id)">Remover</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>
+
+@section Script {
+    <script type="text/javascript">
+        function produtoDecrementa(produtoId) {
+            event.preventDefault();
+
+            let qtd = $('#qtd' + produtoId).text();
+
+            if (qtd > 0) {
+                let url = "@Url.Action("DecrementaQtd", "Produto")";
+                let data = { id : produtoId };
+
+                $.post(url, data, produtoAtualiza)
+                .fail(function () {
+                    alert("Requisição AJAX falhou.");
+                })
+            } else {
+                $(this).attr('disabled', true);
+            }
+        
+        }
+
+        function produtoAtualiza(data) {
+            console.log('Requisição AJAX ok');
+            console.log(data.Quantidade);
+            $("#qtd" + data.Id).html(data.Quantidade);
+        }
+    </script>
+}
+
+
+
+
